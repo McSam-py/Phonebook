@@ -10,9 +10,9 @@ typedef struct {
 // adding a contact
 void addPhoneNumber(char phoneNumber[], char contacName[]){
     contact contactOne;
-    FILE * logBook;
-    logBook = fopen("phonebook.txt", "ra+");
-    //contactOne = {contacName, phoneNumber};
+    contactOne = {contacName, phoneNumber};
+    FILE* logBook;
+    logBook = fopen("phonebook.txt", "wa+");
 }
 
 //remove a contact
@@ -81,7 +81,7 @@ int main(){
     char password[20];
     printf("Enter your password: ");
     scanf("%s", &password);
-    
+
     if  (userPassword(password) == 1) {
         menu();
     }    
