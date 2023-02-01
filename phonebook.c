@@ -4,10 +4,10 @@
 // adding a contact
 void addPhoneNumber(int phoneNumber[], char contactName[]){
     int res;
-    FILE* logBook;
-    logBook = fopen("phonebook.txt", "a");
-    res = fprintf(logBook,"%s --> %s \n", phoneNumber, contactName);
-    fclose(logBook);
+    FILE* phoneBook;
+    phoneBook = fopen("phonebook.txt", "a");
+    res = fprintf(phoneBook,"%s --> %s \n", phoneNumber, contactName);
+    fclose(phoneBook);
     printf("Saved successfully!\n");
 }
 
@@ -30,6 +30,24 @@ void editPhoneNumber(char phoneOrContactName[]) {
 
 }
 
+// display contents of the phone book
+int displayPhoneBook(){
+    char  contents[50];
+    FILE* phoneBook = fopen("phonebook.txt", "r");
+    
+    if (NULL == phoneBook){
+        printf("Error: Could not open phone book");
+        return 0;
+    }
+
+    printf("\n[======>PhoneBook<=======]\n");
+    while (fgets(contents, 50, phoneBook) != NULL){
+        printf("%s", contents);
+    };
+
+    fclose(phoneBook);
+}
+
 // validate user password
 int userPassword(char password[]){
     char userPassword[3][10] = {"password1"};
@@ -49,7 +67,7 @@ int userPassword(char password[]){
 int menu(){
     int userChoice;
     char phoneNumber[20], contactName[20],phoneOrContactName[20];
-    printf("--------Phonebook----------\n1. Save phone number\n2. Search phone number\n3. Delete phone number\n4. Edit phone number\n5. Exit program\nEnter option: ");
+    printf("\n===>[Phonebook]<====\n1. Save phone number\n2. Search phone number\n3. Delete phone number\n4. Edit phone number\n5. Display PhoneBook\n6. Exit program\n\nEnter option: ");
     scanf("%d",&userChoice);
 
     // various option that come with the phonebook application
@@ -62,25 +80,32 @@ int menu(){
         scanf("%s",&contactName);
 
         addPhoneNumber(phoneNumber, contactName);
+        menu();
         break;
 
     case 2:
         printf("\nEnter phone number/ contact name: ");
         scanf("%d",&phoneOrContactName);
         searchPhoneNumber(phoneOrContactName);
+        menu();
         break;
     case 3:
         printf("\nEnter phone number/ contact name:");
         scanf("%d",&phoneOrContactName);
         removePhoneNumber(phoneOrContactName);
+        menu();
         break;
     case 4:
         printf("\nEnter phone number/ contact name you want to edit: ");
         scanf("%d",&phoneOrContactName);
         editPhoneNumber(phoneOrContactName);
+        menu();
         break;
-
     case 5:
+        displayPhoneBook();
+        menu();
+        break;
+    case 6:
         break;
     default:
         printf("\nInvalid phone or contact name");
