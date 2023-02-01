@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 
-// Defining a type the information that would be stored in the phonebook
-typedef struct {
-    char contactName[20];
-    char phoneNumber[20];
-} contact;
-
 // adding a contact
-void addPhoneNumber(char phoneNumber[], char contacName[]){
-    contact contactOne;
-    contactOne = {contacName, phoneNumber};
+void addPhoneNumber(int phoneNumber[], char contactName[]){
+    int res;
     FILE* logBook;
-    logBook = fopen("phonebook.txt", "wa+");
+    logBook = fopen("phonebook.txt", "a");
+    res = fprintf(logBook,"%s --> %s \n", phoneNumber, contactName);
+    fclose(logBook);
+    printf("Saved successfully!\n");
 }
 
+
 //remove a contact
-void removePhoneNumber(char contactName[]) {
+void removePhoneNumber(char phoneOrContactName[]) {
+    FILE* logBook;
+    logBook = fopen("phonebook.txt", "a");
+    
     
 }
 
@@ -26,7 +26,7 @@ void searchPhoneNumber(char contactName[]) {
 }
 
 // edit a contact
-void editPhoneNumber(char contactName[], char phoneNumber[]) {
+void editPhoneNumber(char phoneOrContactName[]) {
 
 }
 
@@ -37,7 +37,6 @@ int userPassword(char password[]){
     for (int i = 0; i < sizeof(userPassword)/sizeof(userPassword[0]); i++) {
         // printf("%s", password);
         if (strcmp(password, userPassword[i]) == 0) {
-            printf("Correct password");
             return 1;
 
         }
@@ -49,8 +48,8 @@ int userPassword(char password[]){
 // display menu and help user select an option
 int menu(){
     int userChoice;
-    char phoneNumber[20], contactName[20];
-    printf("--------------------Phonebook------------------------\n1. Save phone number\n2. Search phone number\n3. Delete phone number\n4. Edit phone number\n");
+    char phoneNumber[20], contactName[20],phoneOrContactName[20];
+    printf("--------Phonebook----------\n1. Save phone number\n2. Search phone number\n3. Delete phone number\n4. Edit phone number\n5. Exit program\nEnter option: ");
     scanf("%d",&userChoice);
 
     // various option that come with the phonebook application
@@ -58,7 +57,7 @@ int menu(){
     {
     case 1:
         printf("\nEnter phone number: ");
-        scanf("%d",&phoneNumber);
+        scanf("%s",&phoneNumber);
         printf("\nEnter Contact Name: ");
         scanf("%s",&contactName);
 
@@ -66,13 +65,25 @@ int menu(){
         break;
 
     case 2:
+        printf("\nEnter phone number/ contact name: ");
+        scanf("%d",&phoneOrContactName);
+        searchPhoneNumber(phoneOrContactName);
         break;
     case 3:
+        printf("\nEnter phone number/ contact name:");
+        scanf("%d",&phoneOrContactName);
+        removePhoneNumber(phoneOrContactName);
         break;
     case 4:
+        printf("\nEnter phone number/ contact name you want to edit: ");
+        scanf("%d",&phoneOrContactName);
+        editPhoneNumber(phoneOrContactName);
+        break;
+
+    case 5:
         break;
     default:
-        break;
+        printf("\nInvalid phone or contact name");
     }
 
 }
